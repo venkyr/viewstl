@@ -17,6 +17,9 @@
 //New in 1.08 => Returns x/y/z dimentions of a model on 'get_model_info'
 //New in 1.08 => Fixed finding file extention, thanks Rafael!
 //**********************************************************
+
+var script_base;	// Base dir for JS -- VR
+
 function StlViewer(parent_element_obj, options)
 {
 	if (!parent_element_obj) console.log ('error: no parent element');
@@ -62,7 +65,7 @@ function StlViewer(parent_element_obj, options)
 	this.camera_state=null;
 	this.auto_rotate=false;
 	this.mouse_zoom=true;
-	this.load_three_files=_this.get_opt("load_three_files","");
+	this.load_three_files=_this.get_opt("load_three_files",script_base);	// VR
 	this.ready=(typeof THREE != 'undefined');
 	this.ready_callback=null;
 	this.auto_resize=true;
@@ -1970,3 +1973,11 @@ Number.isInteger = Number.isInteger || function(value)
 		isFinite(value) && 
 		Math.floor(value) === value;
 };
+
+// Initialize base dir -- VR
+init = function() {
+	script_path=document.currentScript.attributes['src'].value;
+	x=script_path.lastIndexOf('/');
+	script_base = x > 0 ? script_path.substring(0, x+1) : "";
+}();
+
